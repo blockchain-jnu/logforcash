@@ -33,13 +33,13 @@ ex) 유저가 api로 회원가입 화면("/auth/register")을 요청하면, 사�
 
 router.get("/auth/register", authCtrl.output.registerView);
 
-파일에서는 post, get요청들을 볼 수 있고 각종 기능들은 전부 이런식으로 구현되어있습니다.
+index.js 파일에서는 post, get요청들을 볼 수 있고 각종 기능들은 전부 이런식으로 구현되어있습니다.
 컨트롤러 파일들은 기능 별로 나뉘어 있습니다. (routes/home/ 에 위치)
 1. auth.ctrl.js : 사용자 인증 관련 화면과 요청 처리
 2. home.ctrl.js : 메인 화면에서의 화면과 요청 처리
 3. nft.ctrl.js : nft 관련 요청 처리
 4. survey.ctrl.js : 설문조사 관련 요청 처리
 
-라우팅 과정을 정리하면 다음과 같습니다
+api 처리 과정을 정리하면 다음과 같습니다
 
-유저가 api 호출 -> index.js에서 요청을 특정 컨트롤러의 함수로 연결 -> 컨트롤러에서 작업 처리 (DB 작업이 필요한 경우 models에서 함수 호출)
+유저가 api 호출 -> index.js에서 요청을 특정 컨트롤러 파일의 함수로 연결 -> 컨트롤러에서 작업 처리 (DB 작업이 필요한 경우 models에서 함수 호출)
