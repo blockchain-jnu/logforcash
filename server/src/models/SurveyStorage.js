@@ -59,7 +59,7 @@ class SurveyStorage {
                     }
                 }
             )
-            query+= "answerDate DATETIME NULL DEFAULT CURRENT_TIMESTAMP)"
+            query+= "answerDate DATETIME NULL DEFAULT CURRENT_TIMESTAMP) default character set utf8 collate utf8_general_ci;"
 
             db.query(query,
                 (err) =>{

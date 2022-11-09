@@ -8,6 +8,7 @@ function createNFT(surveyId, pk) {
     let description = $("#description").val();
     let price = $("#price").val();
 
+    //아래가 보내는 데이터들입니다.
     jsonObject.secretKey = secretKey;
     jsonObject.tokenName = tokenName;
     jsonObject.description = description;

@@ -33,14 +33,31 @@ const output = {
     }
 }
 
+
+//process는 post 요청에 대한 처리를 담당합니다.
 const process = {
     createNFT: async (req, res) => {
         if(!req.session.user) {
             return res.send("잘못된 접근입니다. 로그인 되어있지 않습니다.");
         } else {
+            /*
+            req는 request로 유저가 요청한 명세가 담겨있습니다.
+            createNFT 요청 시, body에는 아래와 같은 데이터가 포함됩니다.
+
+            secretKey: 유저의 비밀키(string)
+            pk: 유저의 공개키(string)
+            surveyId: 설문조사의 id
+            tokenName: 유저가 입력한 NFT 이름
+            description: 유저가 입력한 NFT 설명
+            price: 유저가 입력한 NFT 가격
+
+            createNFT에 대한 자세한 내용은 server/src/public/js/nft/createNFT.js 에서도 확인할 수 있습니다.
+             */
             let sk = bs58.decode(req.body.secretKey);
             const wallet = {publicKey: new PublicKey(req.body.pk), secretKey: Uint8Array.from(sk)}
             const surveyId = req.body.surveyId;
+
+            //설문조사 id의 -부분을 제거
             let surId = req.body.surveyId.toString().replace(/-/g,"");
             const tokenName = req.body.tokenName;
             const description = req.body.description;

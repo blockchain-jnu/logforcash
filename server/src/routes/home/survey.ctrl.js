@@ -150,6 +150,58 @@ const process = {
             }
         }
     },
+
+    testFinish: async (req, res) => {
+            const ansData = await SurveyStorage.getAnswer(surveyId);
+
+            let data = await new Promise((resolve, reject) => {
+                converter.json2csv(ansData, (err, csv) => {
+                    if(err) {
+                        console.log(err);
+                        return res.json({success: false, msg: err});
+                    }
+                    resolve(csv);
+                });
+            })
+
+            await fs.mkdirSync('survey_nft/asset/'+surveyId, {recursive: true});
+            await fs.writeFileSync('survey_nft/asset/'+surveyId+"/0.csv", data, 'utf8');
+            console.log("csv파일 저장완료");
+
+            console.log("ipfs pinata 업로드");
+            let csvIpfs;
+            let readableStreamForFile = await fs.createReadStream('survey_nft/asset/'+surveyId+"/0.csv");
+            let options = {
+                pinataMetadata: {
+                    name: surveyId+".csv",
+                    keyvalues: {
+                    }
+                },
+                pinataOptions: {
+                    cidVersion: 0
+                }
+            };
+
+            await pinata.pinFileToIPFS(readableStreamForFile, options).then((result) => {
+                //handle results here
+                console.log("ipfs 업로드 완료",result);
+                csvIpfs = result.IpfsHash;
+            }).catch((err) => {
+                //handle error here
+                console.log(err);
+                return res.json({success:false, msg:err});
+            });
+
+            let csvPath = "https://gateway.pinata.cloud/ipfs/" + csvIpfs;
+
+            const response = await SurveyStorage.uploadNFT(csvPath, origin_surveyId);
+            if(response.success){
+                let resp = await SurveyStorage.finishSurvey(origin_surveyId);
+                return res.json(resp);
+            } else {
+                return res.json(response);
+            }
+        }
 }
 
 
