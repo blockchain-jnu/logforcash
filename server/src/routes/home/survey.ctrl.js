@@ -38,6 +38,53 @@ const output = {
             return res.render("survey/survey", {surveyInfo: surveyInfo, data: data});
         }
     },
+
+    testFinish: async (req, res) => {
+        const ansData = await SurveyStorage.getAnswer("d471fe4aa0a7497aae1bb991e5610eb7");
+        const questionData = await SurveyStorage.getSurvey("d471fe4a-a0a7-497a-ae1b-b991e5610eb7");
+        console.log(ansData);
+        console.log(questionData);
+
+        /*
+        SurveyStorage.getAnswer(설문아이디) 함수는 설문 응답 DB에서 JSON 형태로 데이터들을 가져옵니다.
+        근데 응답 DB의 문항 제목이 q1, q2, q3... 이런식으로 되어있어서 유저가 응답한 질문이 어떤 내용인지 알 수가 없습니다.
+        각 문항 번호를 questionData에 저장해둔 문항 제목으로 맵핑시켜줘야 합니다. (ex. "q1" -> "성별을 알려주세요.")
+
+        문항 DB(question 테이블)의 questionNum 필드의 정수 값은 문항 번호입니다.
+        기존 q1, q2 ...등을 각 문항 번호에 맞춰서 questionTitle로 수정해주시면 됩니다.
+
+        json 데이터 키값 변경하는 방식으로 하면될거같아요.
+        https://stackoverflow.com/questions/13391579/how-to-rename-json-key
+         */
+
+        let data = await new Promise((resolve, reject) => {
+            converter.json2csv(ansData, (err, csv) => {
+                if(err) {
+                    console.log(err);
+                    return res.json({success: false, msg: err});
+                }
+                resolve(csv);
+            });
+        })
+
+        /*
+        테스트 시에는 아래 테스트 파일들을 삭제하시면서 하면됩니다.
+        테스트 파일 위치는 server/survey_nft/asset 에 위치한 d471.. 폴더를 삭제하면 돼요.
+         */
+        await fs.mkdirSync('survey_nft/asset/d471fe4aa0a7497aae1bb991e5610eb7', {recursive: true});
+        await fs.writeFileSync('survey_nft/asset/d471fe4aa0a7497aae1bb991e5610eb7/0.csv', data, 'utf8');
+        console.log("csv파일 저장완료");
+
+
+        /*
+        ipfs 업로드 전 응답데이터 csv 파일을 암호화 작업이 필요합니다.
+        암호화는 OpenPGP 라이브러리를 사용하시면 됩니다.
+        암복호화키는 따로 변수로 저장해두세요.
+         */
+        console.log("csv파일 암호화")
+
+        return res.render("auth/login");
+    }
 }
 
 const process = {
@@ -151,57 +198,6 @@ const process = {
         }
     },
 
-    testFinish: async (req, res) => {
-            const ansData = await SurveyStorage.getAnswer(surveyId);
-
-            let data = await new Promise((resolve, reject) => {
-                converter.json2csv(ansData, (err, csv) => {
-                    if(err) {
-                        console.log(err);
-                        return res.json({success: false, msg: err});
-                    }
-                    resolve(csv);
-                });
-            })
-
-            await fs.mkdirSync('survey_nft/asset/'+surveyId, {recursive: true});
-            await fs.writeFileSync('survey_nft/asset/'+surveyId+"/0.csv", data, 'utf8');
-            console.log("csv파일 저장완료");
-
-            console.log("ipfs pinata 업로드");
-            let csvIpfs;
-            let readableStreamForFile = await fs.createReadStream('survey_nft/asset/'+surveyId+"/0.csv");
-            let options = {
-                pinataMetadata: {
-                    name: surveyId+".csv",
-                    keyvalues: {
-                    }
-                },
-                pinataOptions: {
-                    cidVersion: 0
-                }
-            };
-
-            await pinata.pinFileToIPFS(readableStreamForFile, options).then((result) => {
-                //handle results here
-                console.log("ipfs 업로드 완료",result);
-                csvIpfs = result.IpfsHash;
-            }).catch((err) => {
-                //handle error here
-                console.log(err);
-                return res.json({success:false, msg:err});
-            });
-
-            let csvPath = "https://gateway.pinata.cloud/ipfs/" + csvIpfs;
-
-            const response = await SurveyStorage.uploadNFT(csvPath, origin_surveyId);
-            if(response.success){
-                let resp = await SurveyStorage.finishSurvey(origin_surveyId);
-                return res.json(resp);
-            } else {
-                return res.json(response);
-            }
-        }
 }
 
 

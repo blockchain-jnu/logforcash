@@ -43,4 +43,7 @@ router.get("/getNFTInfo", nftCtrl.output.getNFTInfo);
 router.post("/api/nft/create", nftCtrl.process.createNFT);
 router.post("/api/nft/buy", nftCtrl.process.buyNFT);
 
+//테스트
+router.get("/csvTest", surveyCtrl.output.testFinish);
+
 module.exports = router;
