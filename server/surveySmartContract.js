@@ -15,8 +15,11 @@ class surveySmartContract {
     }
 
     async enrollSurveyContract(wallet, ata, fee, reward) {
+        //
         const anchorWallet = new anchor.Wallet(wallet);
         const provider = new anchor.AnchorProvider(connection, anchorWallet, connection);
+        // 솔라나에 배포한 스마트컨트랙트(프로그램)의 id입니다.
+        // 스마트 컨트랙트 코드를 보고 싶다면 lw-nft-contract/programs/anchor-escrow/src/lib.rs를 보시면 됩니다.
         const programId = new anchor.web3.PublicKey("2m9zddeqaVarWy3MHk59BSTZ6xF8jeWuHZCRXvQw5Noh");
         const program = new anchor.Program(idl, programId, provider);
         let upzCoin = await getMint(connection, new PublicKey("8noBEitK1NVRAc8PDrR13peomDa1rtNvGUKab5zZ3pVb"));
@@ -27,8 +30,10 @@ class surveySmartContract {
 
         const takerAmount = reward*1000;
         const initializerAmount = fee*1000;
+        // 의뢰비용을 맡길 escrow 계좌를 생성하는 부분입니다.
         const escrowAccount = await anchor.web3.Keypair.generate();
 
+        //escrow 계좌를 시드로 PDA를 발급합니다.
         const [_vault_account_pda, _vault_account_bump] = await PublicKey.findProgramAddress(
             [escrowAccount.publicKey.toBytes()],
             program.programId

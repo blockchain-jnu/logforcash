@@ -90,7 +90,7 @@ span{
     width: 100%;
 }
 
-#subjectiveAdder {
+#questionFrame {
     width: 650px;
     display: inline-block;
     border-radius: 15px;
@@ -141,6 +141,19 @@ span{
     padding: 10px;
 }
 
-#enrollSurveyBtn {
+#configShare {
     margin-top: 10px;
+    display: none;
+    text-align: center;
+}
+
+#share {
+    margin-top: 30px;
+    width: 500px;
+}
+
+
+
+#enrollSurveyBtn {
+    margin-top: 50px;
 }

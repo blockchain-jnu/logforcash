@@ -69,32 +69,37 @@
     <hr>
 
     <div id="surveyData">
-        <h1>문항 관리</h1>
+        <h1>문항 편집</h1>
         <div id="questionList">
             <div class="subjective">
 
             </div>
         </div>
         <div id="questionAdder">
-            <div id="subjectiveAdder">
-                <h3>주관식 문항</h3>
-                <br>
-                <table cellspacing="10px">
-                    <tr>
-                        <td>문항명</td>
-                        <td>
-                            <input id="subjectiveTitle" type="text" placeholder="질문 내용을 입력해주세요.">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>응답 글자 수 제한</td>
-                        <td>
-                            <input id="subjectiveMax" type="number" placeholder="0"> 자
-                        </td>
-                    </tr>
-                </table>
-                <br>
-                <button id="subjectiveAddBtn">문항 추가</button>
+            <div id="selectQuestionType">
+
+            </div>
+            <div id="questionFrame">
+                <div id="subjectiveAdder">
+                    <h3>주관식 문항</h3>
+                    <br>
+                    <table cellspacing="10px">
+                        <tr>
+                            <td>문항명</td>
+                            <td>
+                                <input id="subjectiveTitle" type="text" placeholder="질문 내용을 입력해주세요.">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>응답 글자 수 제한</td>
+                            <td>
+                                <input id="subjectiveMax" type="number" placeholder="0"> 자
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <button id="subjectiveAddBtn">문항 추가</button>
+                </div>
             </div>
         </div>
     </div>
@@ -144,9 +149,17 @@
         </div>
         <div style="margin-top: 50px">
             <label for="tradable">
-                <p>설문 NFT 발행 및 거래에 동의하십니까? (30% 할인) <input type="checkbox" id="tradable"></p>
+                <p>설문 데이터 NFT 발행 및 거래에 동의하십니까?<input type="checkbox" id="tradable"></p>
             </label>
         </div>
+
+        <div id="configShare">
+            <p>응답자에게 돌아가는 지분 비율만큼 의뢰 비용 할인이 적용됩니다.</p>
+            <p>본인이 소유할 지분 비율을 결정해주세요.</p>
+            <input type="range" id="share" value="70" min="70" max="95" step="5" oninput="document.getElementById('value2').innerHTML=this.value;">
+            <span id="value2">70</span>%
+        </div>
+
         <button id="enrollSurveyBtn">설문 등록</button>
     </div>
 </div>

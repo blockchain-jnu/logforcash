@@ -1,7 +1,7 @@
 [features]
 seeds = false
 [programs.devnet]
-lw_nft_contract = "8SLH9tEURNMmRgCj9wfiHLyifuhhEjUi653anC35FdVH"
+lw_nft_contract = "5cUhTTxVACAWiZyiETkQNukicfE9gszEgkC47brrEqHz"
 
 [registry]
 url = "https://anchor.projectserum.com"

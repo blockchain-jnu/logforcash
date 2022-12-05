@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>LOGCOIN</title>
+	<%- include("../component/head")%>
+	<script src="js/home/bs58.bundle.js" charset="utf-8"></script>
+	<script src="/js/home/myWallet.js" defer></script>
+	<link rel="stylesheet" type="text/css" href="/css/home/surveyNFTStore.css">
+
+	<script>
+		const {clusterApiUrl, Connection, PublicKey} = solanaWeb3;
+
+		(async () => {
+			let connection = new Connection(clusterApiUrl('devnet'));
+			const upzBal = await connection.getTokenAccountBalance(new PublicKey("<%=data['userATA']%>"));
+			const solBal = await connection.getBalance(new PublicKey("<%=data['userWalletAddress']%>"));
+			const upz = document.querySelector("#upz");
+			const sol = document.querySelector("#sol");
+			upz.innerHTML = (upzBal.value.amount/(10**upzBal.value.decimals)).toFixed(3);
+			sol.innerHTML = solBal/(10**9);
+		})();
+	</script>
+</head>
+<body>
+	<%- include("../component/header")%>
+	<%- include("../component/loading")%>
+<section class="info_section">
+	<div class="info_wrap">
+		<div class="info1">
+			<img src="/images/section_logo.png">
+		</div>
+		<div class="info2">
+			<div class="info_title">
+				<p>INFORMATION</p>
+			</div>
+			<div class="info_table">
+				<table>
+					<tbody>
+					<tr>
+						<td>GENDER</td>
+						<td class="mc"><%=data['userGender']%></td>
+					</tr>
+					<tr>
+						<td>AGE</td>
+						<td class="mc"><%=data['userAge']%></td>
+					</tr>
+					<tr>
+						<td>WALLET ADDRESS</td>
+						<td class="mc" id="pk"><%=data['userWalletAddress']%></td>
+					</tr>
+					<tr>
+						<td>SOL BALANCE</td>
+						<td class="mc" id="sol"></td>
+					</tr>
+					<tr>
+						<td>UPZ BALANCE</td>
+						<td class="mc" id="upz"></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</section>
+</body>
+</html>

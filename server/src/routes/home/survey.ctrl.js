@@ -10,6 +10,7 @@ const converter = require("json-2-csv");
 const fs = require('fs');
 const pinataSDK = require('@pinata/sdk');
 const pinata = pinataSDK('48b3897047e499c370bd', '212424e67471ff3ef840e2e6cedb9d5b43349608af273bf5f21bf1b34512f047');
+const openPGP = require('openpgp');
 
 const output = {
     makeSurveyView: async (req, res) => {
@@ -40,8 +41,8 @@ const output = {
     },
 
     testFinish: async (req, res) => {
-        const ansData = await SurveyStorage.getAnswer("d471fe4aa0a7497aae1bb991e5610eb7");
-        const questionData = await SurveyStorage.getSurvey("d471fe4a-a0a7-497a-ae1b-b991e5610eb7");
+        const ansData = await SurveyStorage.getAnswer("b433715aca37457a8df9589289b02d86");
+        const questionData = await SurveyStorage.getSurvey("b433715a-ca37-457a-8df9-589289b02d86");
         console.log(ansData);
         console.log(questionData);
 
@@ -65,14 +66,14 @@ const output = {
                 }
                 resolve(csv);
             });
-        })
+        });
 
         /*
         테스트 시에는 아래 테스트 파일들을 삭제하시면서 하면됩니다.
         테스트 파일 위치는 server/survey_nft/asset 에 위치한 d471.. 폴더를 삭제하면 돼요.
          */
-        await fs.mkdirSync('survey_nft/asset/d471fe4aa0a7497aae1bb991e5610eb7', {recursive: true});
-        await fs.writeFileSync('survey_nft/asset/d471fe4aa0a7497aae1bb991e5610eb7/0.csv', data, 'utf8');
+        await fs.mkdirSync('survey_nft/asset/b433715aca37457a8df9589289b02d86', {recursive: true});
+        await fs.writeFileSync('survey_nft/asset/b433715aca37457a8df9589289b02d86/0.csv', data, 'utf8');
         console.log("csv파일 저장완료");
 
 
@@ -81,6 +82,18 @@ const output = {
         암호화는 OpenPGP 라이브러리를 사용하시면 됩니다.
         암복호화키는 따로 변수로 저장해두세요.
          */
+        const {filePubKey, fileSecKey} = await openPGP.generateKey({
+            curve: 'ed25519',
+            userIDs: [{
+                surveyId: "id"
+            }],
+        });
+
+        const encryptedData = await openPGP.encrypt({
+            message: openPGP.message.fromText()
+        })
+
+
         console.log("csv파일 암호화")
 
         return res.render("auth/login");

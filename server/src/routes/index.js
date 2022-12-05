@@ -9,6 +9,7 @@ const nftCtrl = require("./home/nft.ctrl");
 
 //로그인 화면
 router.get("/", authCtrl.output.main);
+//회원가입 화면
 router.get("/auth/register", authCtrl.output.registerView);
 
 //메인화면
