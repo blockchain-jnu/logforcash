@@ -10,13 +10,13 @@ let maxAnswerer;
 let needToken;
 let upzBalance;
 let incentive = 0;
+let ownerShare = 0.7;
 
 enrollBtn.addEventListener("click", enroll);
 
 $("#subjectiveAddBtn").click(function() {
     let title = $("#subjectiveTitle").val();
     let answerMax = $("#subjectiveMax").val();
-
     if(title==="" || answerMax==="" || answerMax<=0){
         alert("질문을 정보를 올바르게 설정해주세요.");
         return;
@@ -36,13 +36,28 @@ $("#subjectiveAddBtn").click(function() {
     changeRewards();
 });
 
+
+
 $("#numOfAnswerer").change(function(){
     changeRewards();
 });
 
 $("#tradable").change(function () {
     changeRewards();
+    if($("input:checkbox[id='tradable']").is(":checked")){
+        $("#configShare").css('display', 'block');
+    } else {
+        $("#configShare").css('display', 'none');
+    }
 });
+
+$("#share").change(function () {
+    if($("input:checkbox[id='tradable']").is(":checked")){
+        ownerShare = $("#share").val()*0.01;
+        changeRewards();
+    }
+});
+
 
 function enroll(){
     parent.showSpinner();
@@ -77,7 +92,7 @@ function enroll(){
     jsonObject.questionCnt = i-1;
     jsonObject.sign = sign;
     jsonObject.incentive = incentive;
-    jsonObject.incentive === 0? jsonObject.reward = rewards : jsonObject.reward = rewards*0.7;
+    jsonObject.incentive === 0? jsonObject.reward = rewards : jsonObject.reward = Math.ceil(rewards*ownerShare*1000)/1000;
     jsonObject.fee = needToken;
 
 
@@ -120,11 +135,13 @@ function changeRewards() {
     maxAnswerer = $("#numOfAnswerer").val()
     let tmp = rewards*maxAnswerer;
     if($("#tradable").is(":checked")) {
-        needToken = Math.ceil(0.7*tmp*1000)/1000;
-        incentive = Math.ceil(rewards*0.03*1000)/1000;
+        needToken = Math.ceil(ownerShare*tmp*1000)/1000;
+        incentive = Math.ceil(((1-ownerShare)*100/maxAnswerer)*1000)/1000;
     } else {
         needToken = tmp;
         incentive = 0;
     }
     needTokenAmount.innerHTML = needToken;
 }
+
+

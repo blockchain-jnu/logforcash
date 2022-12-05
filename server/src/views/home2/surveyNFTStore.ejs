@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>LOGCOIN</title>
+	<%- include("../component/head")%>
+	<script src="/js/home/surveyInProgress.js" defer></script>
+	<link rel="stylesheet" type="text/css" href="/css/home/surveyNFTStore.css">
+</head>
+<body>
+	<%- include("../component/header")%>
+	<%- include("../component/loading")%>
+	<section class="store_section">
+		<div class="store_wrap">
+			<div class="store_top">
+				<div class="store_title">
+					<p>NFT Store</p>
+				</div>
+			</div>
+			<div class="store_list">
+				<ul>
+					<%data.forEach( (item) => {%>
+					<li>
+						<a onclick="showModal('/getNFTInfo?id=<%=item.surveyId%>', '1020', '580')" style="cursor: pointer">
+							<div class="list_info">
+								<div class="list_img">
+									<img src="/images/logo.png">
+								</div>
+								<div class="list_text">
+									<table style="table-layout: fixed">
+										<tr><td width="60px">Name</td><td><%=item.tokenName%></td></tr>
+										<tr><td>Price</td><td><%=item.price%> UPZ</td></tr>
+										<tr><td>Seller</td><td style="white-space:nowrap; text-overflow:ellipsis; overflow:hidden;"><%=item.tokenAddress%></td></tr>
+										<tr><td>Date</td><td><%=item.enrollDate%></td></tr>
+									</table>
+								</div>
+							</div>
+						</a>
+					</li>
+					<%});%>
+				</ul>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

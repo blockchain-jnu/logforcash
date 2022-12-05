@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>LOGCOIN</title>
+	<%- include("../component/head")%>
+	<link rel="stylesheet" type="text/css" href="/css/home/surveyInProgress.css">
+</head>
+<body>
+	<%- include("../component/header")%>
+	<%- include("../component/loading")%>
+	<section class="suvey_section">
+		<div class="suvey_wrap">
+			<div class="suvey_top">
+				<div class="suvey_title">
+					<p>설문조사</p>
+				</div>
+				<div class="suvey_add">
+					<a onclick="showModal('/makeSurvey', '1000', '850')" style="cursor: pointer">설문 추가</a>
+				</div>
+			</div>
+			<div class="suvey_table">
+				<table class="rwd-table">
+  				  <tbody>
+				  <tr>
+					  <th>Name</th>
+					  <th>target</th>
+					  <th>Compensation</th>
+					  <th>Incentive</th>
+					  <th>Publisher</th>
+					  <th>Date</th>
+				  </tr>
+				  <%data.forEach( (item) => {%>
+				  <tr onclick="showModal('/getSurveyInfo?id=<%=item.surveyId%>', '1020', '680')" style="cursor: pointer">
+					  <td data-th="Name">
+						  <%=item.surveyTitle%>
+					  </td>
+					  <td data-th="Target">
+						  <%=item.maxAnswerer%> 명
+					  </td>
+					  <td data-th="Compensation">
+						  <%=item.reward%> UPZ
+					  </td>
+					  <td data-th="Incentive">
+						  <%=item.incentive%> %
+					  </td>
+					  <td data-th="Writer">
+						  <%=item.publisher%>
+					  </td>
+					  <td data-th="Date">
+						  <%=item.enrollDate%>
+					  </td>
+				  </tr>
+				  <%});%>
+  				  </tbody>
+  				</table>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

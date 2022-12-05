@@ -10,8 +10,7 @@ const fs = require("fs");
 const pinataSDK = require('@pinata/sdk');
 const pinata = pinataSDK(pintaK.api, pintaK.sk);
 const {PublicKey} = require("@solana/web3.js");
-const connection = require("../../../solana");
-const {transfer} = require("@solana/spl-token");
+
 
 const output = {
     createNFTView: async (req, res) => {
@@ -124,27 +123,7 @@ const process = {
       if(!req.session.user) {
           return res.send("잘못된 접근입니다. 로그인 되어있지 않습니다.");
       }  else {
-          const answererList = await SurveyStorage.getAnswererList(req.body.surveyId);
-          let sk = bs58.decode(req.body.secretKey);
-          const wallet = {publicKey: new PublicKey(req.body.pk), secretKey: Uint8Array.from(sk)}
-          try {
-              answererList.forEach((answerer) => {
-                  let ata = new PublicKey(req.session.user.ata);
-                  let answer = new PublicKey(answerer.answerer);
-                  transfer(
-                      connection,
-                      wallet,
-                      ata,
-                      answer,
-                      wallet.publicKey,
-                      req.body.price*1000/answererList.length
-                  )
-              });
 
-              return res.json({success: true});
-          } catch (e) {
-              return res.json({success: false, msg: e.msg});
-          }
       }
     },
 }

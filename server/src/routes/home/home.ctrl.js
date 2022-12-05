@@ -14,7 +14,7 @@ const output = {
                 req.session.user.pk=userData['userWalletAddress'];
                 req.session.user.ata= userData['userATA'];
             }
-            return res.render("home/myWallet", {data: userData});
+            return res.render("home2/myWallet", {data: userData});
         }
     },
 
@@ -23,7 +23,7 @@ const output = {
             return res.redirect("/");
         } else {
             const data = await SurveyStorage.getSurveyList();
-            return res.render("home/surveyInProgress", {data: data});
+            return res.render("home2/surveyList", {data: data});
         }
     },
 
@@ -32,7 +32,7 @@ const output = {
             return res.redirect("/");
         } else {
             const data = await NFTStorage.getNFTList();
-            return res.render("home/surveyNFTStore", {data: data});
+            return res.render("home2/surveyNFTStore", {data: data});
         }
     },
 

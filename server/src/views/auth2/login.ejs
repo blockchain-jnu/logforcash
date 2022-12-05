@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>LOGCOIN</title>
+	<%- include("../component/head")%>
+	<link rel="shortcut icon" href="/img/logo/fav.ico" type="image/x-icon">
+	<script src="/js/loading.js" defer></script>
+	<script src="/js/auth/login.js" defer></script>
+	<link rel="stylesheet" type="text/css" href="/css/home/surveyNFTStore.css">
+</head>
+<body>
+<div class="layerPopup">
+	<div class="spinner"></div>
+</div>
+<div class="filter"></div>
+<div class="pop_menu" style="display: none;">
+	<ul>
+		<li class="close"><i class="fa-solid fa-xmark"></i></li>
+		<li><a href="/myWallet"><p><i class="fa-solid fa-link"></i></p>LOGCASH</a></li>
+		<li><a href="/surveyInProgress"><p><i class="fa-solid fa-pencil"></i></p>설문조사</a></li>
+		<li><a href="/surveyNFTStore"><p><i class="fa-solid fa-cart-shopping"></i></p>NFT스토어</a></li>
+		<li><a href="/myWallet"><p><i class="fa-solid fa-wallet"></i></p>내 지갑</a></li>
+		<li><a href="#"><p><i class="fa-solid fa-flag"></i></p>고객센터</a></li>
+		<li><a href="/"><p><i class="fa-solid fa-user"></i></p>로그인</a></li>
+		<li><a href="/auth/register"><p><i class="fa-solid fa-right-to-bracket"></i></p>회원가입</a></li>
+	</ul>
+</div>
+<header>
+	<div class="header_wrap">
+		<div class="header_logo">
+			<a href="/"><img src="/images/logo.png"></a>
+		</div>
+		<div class="header_menu">
+			<ul>
+				<li><a href="/myWallet">LOGCASH</a></li>
+				<li><a href="/surveyInProgress">설문조사</a></li>
+				<li><a href="/surveyNFTStore">NFT스토어</a></li>
+				<li><a href="/myWallet">내 지갑</a></li>
+				<li><a href="#">고객센터</a></li>
+				<li class="search"><p><span class="search_icon"><i class="fa-solid fa-magnifying-glass"></i></span><input type="text" placeholder="Search.."></p></li>
+			</ul>
+		</div>
+
+
+		<div class="header_login">
+			<div class="login">
+				<a href="/">로그인</a>
+			</div>
+			<div class="join">
+				<a href="/auth/register">회원가입</a>
+			</div>
+		</div>
+		<div class="hambuger navbar_toggleBtn" style="display: none;">
+			<i class="fa-solid fa-bars"></i>
+		</div>
+	</div>
+</header>
+
+	<section class="login_section">
+		<div class="login_wrap">
+			<div class="login_box">
+				<div class="login_title">
+					<p>Logcash</p>
+				</div>
+				<div class="login_input">
+					<ul>
+						<li><p class="input_title">Email / Username</p>
+						<input id="email" type="text" name="" class="login_i"></li>
+						<li><p class="input_title">Password</p>
+						<input id="password" type="password" name="" class="login_i"></li>
+						<li><input id="submit" type="submit" name="" value="Login" class="login_b"></li>
+						<li class="join_input"><a href="/auth/register">Join</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
